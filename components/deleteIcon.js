@@ -1,11 +1,17 @@
-const deleteIcon = ()=>{
-    const i = document.createElement("i");
-    i.classList.add("fas","fa-trash-alt","trashIcon","icon");
-    i.addEventListener("click",deleteTask);
-    return i;
-}
-const deleteTask = (e)=>{
-    const parent = e.target.parentElement
-    parent.remove()
-}
-export default deleteIcon
+import { diasplayTasks } from "./diasplayTasks.js";
+const deleteIcon = (id) => {
+  const i = document.createElement('i');
+  i.classList.add('fas', 'fa-trash-alt', 'trashIcon', 'icon');
+  i.addEventListener('click', () =>deleteTask(id));
+  return i;
+};
+const deleteTask = (id) => {
+  const li = document.querySelector("[data-list]");
+  const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+  const index = tasks.findIndex(tasks => tasks.id === id);
+  tasks.splice(index, 1);
+  li.innerHTML = "";
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+  diasplayTasks();
+};
+export default deleteIcon;
